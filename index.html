@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Custom Bit String to Binary Converter</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        color: #fff;
+        text-align: center;
+        padding: 40px;
+      }
+
+      h1 {
+        font-size: 36px;
+        animation: fadeInDown 1s ease;
+      }
+
+      textarea,
+      select {
+        width: 90%;
+        max-width: 400px;
+        height: 80px;
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 12px;
+        outline: none;
+        margin-top: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        transition: 0.3s ease;
+      }
+
+      textarea:focus {
+        box-shadow: 0 0 12px #00ffe5, 0 0 20px #00ffe5;
+        background-color: #1f2b38;
+        color: #00ffe5;
+      }
+
+      select {
+        height: 50px;
+      }
+
+      button {
+        margin-top: 15px;
+        padding: 12px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        background: linear-gradient(to right, #00c6ff, #0072ff);
+        color: white;
+        transition: 0.3s ease;
+        box-shadow: 0 0 10px #00c6ff;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px #00ffe5;
+      }
+
+      .output {
+        margin-top: 30px;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 255, 229, 0.2);
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        animation: fadeInUp 1s ease;
+      }
+
+      ol {
+        text-align: left;
+        line-height: 1.8;
+      }
+
+      code {
+        background-color: #222;
+        padding: 3px 7px;
+        border-radius: 6px;
+        color: #00ffe5;
+      }
+
+      @keyframes fadeInDown {
+        0% {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>💡 Custom Bit String to Binary Converter</h1>
+    <p>Enter your string below:</p>
+    <textarea id="inputText" placeholder="Type your text here..."></textarea
+    ><br />
+
+    <label for="bitSize"><strong>Choose Bit Size:</strong></label
+    ><br />
+    <select id="bitSize">
+      <option value="4">4-bit</option>
+      <option value="5">5-bit</option>
+      <option value="6">6-bit</option>
+      <option value="7">7-bit</option>
+      <option value="8" selected>8-bit (Default)</option></select
+    ><br />
+
+    <button onclick="convertToBinary()">🔁 Convert</button>
+
+    <div class="output" id="outputBox"></div>
+
+    <script>
+      function convertToBinary() {
+        const input = document.getElementById("inputText").value;
+        const bitSize = parseInt(document.getElementById("bitSize").value);
+        const outputBox = document.getElementById("outputBox");
+
+        if (!input) {
+          outputBox.innerHTML =
+            "<p style='color:red;'>⚠️ Please enter some text.</p>";
+          return;
+        }
+
+        let result = `<h3>🔍 Conversion Steps (${bitSize}-bit):</h3><ol>`;
+        let finalBinary = "";
+
+        for (let char of input) {
+          const ascii = char.charCodeAt(0);
+          const fullBinary = ascii.toString(2).padStart(8, "0");
+          const customBinary = fullBinary.slice(-bitSize);
+          result += `<li>'${char}' ➝ ASCII: ${ascii} ➝ Binary: <code>${fullBinary}</code> ➝ ${bitSize}-bit: <code>${customBinary}</code></li>`;
+          finalBinary += customBinary + " ";
+        }
+
+        result += `</ol><h3>✅ Final ${bitSize}-bit Binary String:</h3><p><code>${finalBinary.trim()}</code></p>`;
+        outputBox.innerHTML = result;
+      }
+    </script>
+  </body>
+</html>
